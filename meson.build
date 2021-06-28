@@ -33,6 +33,19 @@ project(                 'QUARK',
 
 
 
+
+prefix     = get_option('prefix')
+bindir     = join_paths(prefix, get_option('bindir'))
+libdir     = join_paths(prefix, get_option('libdir'))
+mandir     = join_paths(prefix, get_option('mandir'))
+datadir    = join_paths(prefix, get_option('datadir'))
+localedir  = get_option('localedir')
+
+
+
+
+
+
 # Setup the compiler
 cc = meson.get_compiler('c')
 if  get_option('buildtype') == 'release'
@@ -61,4 +74,5 @@ endif
 
 includeDir = include_directories('include')
 
-executable('quark', 'main.c', include_directories: includeDir)
+executable('quark', 'main.c', include_directories: includeDir
+                              install: true)
