@@ -74,5 +74,5 @@ endif
 
 includeDir = include_directories('include')
 
-executable('quark', 'main.c', include_directories: includeDir
+executable('quark', 'main.c', include_directories: includeDir,
                               install: true)
