@@ -23,13 +23,23 @@
 
 
 
+
+# Define the language used for the project.
+# Default is 'c'.  You can choose between [c,cpp,...].
+LANGUAGE = 'c'
+
+
+
+
+# Project definition.
 project(                 'QUARK',
-                         'c',
+                         LANGUAGE,
                 license: 'GPL3+',
                 version: '0.0.1',
           meson_version: '>= 0.55.0',
-        default_options: [ 'c_std=c17', 'cpp_std=c++17',
-                           'warning_level=3' ])
+        default_options: [ 'c_std=c17',      'cpp_std=c++17',
+                           'optimization=3', 'warning_level=3',
+                           'werror=true'])
 
 
 
@@ -47,12 +57,12 @@ localedir  = get_option('localedir')
 
 
 # Setup the compiler
-cc = meson.get_compiler('c')
+cc = meson.get_compiler(LANGUAGE)
 if  get_option('buildtype') == 'release'
   compile_flags = [ '-march=native', '-mtune=native', '-pipe' ]
 
   supported_flags = cc.get_supported_arguments(compile_flags)
-  add_project_arguments(supported_flags, language: 'c')
+  add_project_arguments(supported_flags, language: LANGUAGE)
 else
   if get_option('buildtype').startswith('debug')
     # Add compilation flags
@@ -68,7 +78,7 @@ else
                       '-Wwrite-strings',      '-g' ]
 
     supported_flags = cc.get_supported_arguments(compile_flags)
-    add_project_arguments(supported_flags, language: 'c')
+    add_project_arguments(supported_flags, language: LANGUAGE)
   endif
 endif
 
