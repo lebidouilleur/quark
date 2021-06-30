@@ -24,22 +24,25 @@
 
 
 
-# Define the language used for the project.
-# Default is 'c'.  You can choose between [c,cpp,...].
-LANGUAGE = 'c'
-
-
-
-
 # Project definition.
 project(                 'QUARK',
-                         LANGUAGE,
+                         'c',
                 license: 'GPL3+',
                 version: '0.0.1',
           meson_version: '>= 0.55.0',
         default_options: [ 'c_std=c17',      'cpp_std=c++17',
                            'optimization=3', 'warning_level=3',
                            'werror=true'])
+
+
+
+
+
+# Define the language used for the project.
+# Default is 'c'.  You can choose between [c,cpp,...].
+LANGUAGE = 'c'
+
+
 
 
 
