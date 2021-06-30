@@ -31,8 +31,7 @@ project(                 'QUARK',
                 version: '0.0.1',
           meson_version: '>= 0.55.0',
         default_options: [ 'c_std=c17',      'cpp_std=c++17',
-                           'optimization=3', 'warning_level=3',
-                           'werror=true'])
+                           'optimization=3', 'warning_level=3' ])
 
 
 
