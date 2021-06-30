@@ -40,7 +40,7 @@ project(                 'QUARK',
 
 # Define the language used for the project.
 # Default is 'c'.  Take a look at
-# https://mesonbuild.com/Reference-manual.html#project
+# https://mesonbuild.com/Reference-tables.html#language-arguments-parameter-names
 # to find any other accepted language.
 LANGUAGE = 'c'
 
