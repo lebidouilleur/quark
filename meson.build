@@ -28,7 +28,7 @@ project(                 'QUARK',
                 license: 'GPL3+',
                 version: '0.0.1',
           meson_version: '>= 0.55.0',
-        default_options: [ 'c_std=c11', 'cpp_std=c++17',
+        default_options: [ 'c_std=c17', 'cpp_std=c++17',
                            'warning_level=3' ])
 
 
