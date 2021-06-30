@@ -32,8 +32,9 @@
 #include <stdio.h>
 
 
-int main(int argc, char **argv, char **env) {
-
+int
+main()
+{
     printf("Hello, world!\n");
 
     return EXIT_SUCCESS;
