@@ -139,3 +139,7 @@ includeDir = include_directories('include')
 
 executable('quark', 'main.c', include_directories: includeDir,
                               install: true)
+
+install_data(
+  sources: [ 'LICENSE', 'README.md' ],
+  install_dir : join_paths(datadir, meson.project_name()))
