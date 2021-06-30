@@ -30,15 +30,18 @@ project(                 'QUARK',
                 license: 'GPL3+',
                 version: '0.0.1',
           meson_version: '>= 0.55.0',
-        default_options: [ 'c_std=c17',      'cpp_std=c++17',
-                           'optimization=3', 'warning_level=3' ])
+        default_options: [ 'c_std=c17',         'cpp_std=c++17',
+                           'buildtype=minsize', 'optimization=2',
+                           'warning_level=3' ] )
 
 
 
 
 
 # Define the language used for the project.
-# Default is 'c'.  You can choose between [c,cpp,...].
+# Default is 'c'.  Take a look at
+# https://mesonbuild.com/Reference-manual.html#project
+# to find any other accepted language.
 LANGUAGE = 'c'
 
 
@@ -60,79 +63,77 @@ localedir  = get_option('localedir')
 
 # Setup the compiler
 cc = meson.get_compiler(LANGUAGE)
-if  get_option('buildtype') == 'release'
-  compile_flags = [ '-march=native', '-mtune=native', '-pipe' ]
-
-  supported_flags = cc.get_supported_arguments(compile_flags)
-  add_project_arguments(supported_flags, language: LANGUAGE)
-else
-  if get_option('buildtype').startswith('debug')
-    # Add compilation flags
-    compile_flags = [ '-W',
-                      '-Wdeclaration-after-statement',
-                      '-Wcast-align',
-                      '-Wcast-qual',
-                      '-Wconversion',
-                      '-Werror',
-                      '-Werror=address',
-                      '-Werror=array-bounds',
-                      '-Werror=empty-body',
-                      '-Werror=implicit',
-                      '-Werror=implicit-function-declaration',
-                      '-Werror=incompatible-pointer-types',
-                      '-Werror=init-self',
-                      '-Werror=int-conversion',
-                      '-Werror=int-to-pointer-cast',
-                      '-Werror=main',
-                      '-Werror=misleading-indentation',
-                      '-Werror=missing-braces',
-                      '-Werror=missing-include-dirs',
-                      '-Werror=nonnull',
-                      '-Werror=overflow',
-                      '-Werror=parenthesis',
-                      '-Werror=pointer-arith',
-                      '-Werror=pointer-to-int-cast',
-                      '-Werror=redundant-decls',
-                      '-Werror=return-type',
-                      '-Werror=sequence-point',
-                      '-Werror=shadow',
-                      '-Werror=strict-prototypes',
-                      '-Werror=trigraphs',
-                      '-Werror=undef',
-                      '-Werror=write-strings',
-                      '-Wformat-nonliteral',
-                      '-Wignored-qualifiers',
-                      '-Wimplicit-function-declaration',
-                      '-Wlogical-op',
-                      '-Wmissing-declarations',
-                      '-Wmissing-format-attribute',
-                      '-Wmissing-include-dirs',
-                      '-Wmissing-noreturn',
-                      '-Wmissing-prototype',
-                      '-Wnested-externs',
-                      '-Wno-cast-function-type',
-                      '-Wno-missing-field-initializers',
-                      '-Wno-sign-compare',
-                      '-Wno-unused-parameter',
-                      '-Wold-style-definition',
-                      '-Wpointer-arith',
-                      '-Wredundant-decls',
-                      '-Wshadow',
-                      '-Wstrict-prototypes',
-                      '-Wswitch-default',
-                      '-Wswitch-enum',
-                      '-Wundef',
-                      '-Wuninitialized',
-                      '-Wunused',
-                      '-Wwrite-strings',
-                      '-fno-strict-aliasing',
-                      ['-Werror=format-security', '-Werror=format=2' ],
-                      '-g' ]
-
-    supported_flags = cc.get_supported_arguments(compile_flags)
-    add_project_arguments(supported_flags, language: LANGUAGE)
-  endif
+if get_option('buildtype').startswith('debug')
+  # Add compilation flags
+  compile_flags = [ '-W',
+                    '-Wdeclaration-after-statement',
+                    '-Wcast-align',
+                    '-Wcast-qual',
+                    '-Wconversion',
+                    '-Werror',
+                    '-Werror=address',
+                    '-Werror=array-bounds',
+                    '-Werror=empty-body',
+                    '-Werror=implicit',
+                    '-Werror=implicit-function-declaration',
+                    '-Werror=incompatible-pointer-types',
+                    '-Werror=init-self',
+                    '-Werror=int-conversion',
+                    '-Werror=int-to-pointer-cast',
+                    '-Werror=main',
+                    '-Werror=misleading-indentation',
+                    '-Werror=missing-braces',
+                    '-Werror=missing-include-dirs',
+                    '-Werror=nonnull',
+                    '-Werror=overflow',
+                    '-Werror=parenthesis',
+                    '-Werror=pointer-arith',
+                    '-Werror=pointer-to-int-cast',
+                    '-Werror=redundant-decls',
+                    '-Werror=return-type',
+                    '-Werror=sequence-point',
+                    '-Werror=shadow',
+                    '-Werror=strict-prototypes',
+                    '-Werror=trigraphs',
+                    '-Werror=undef',
+                    '-Werror=write-strings',
+                    '-Wformat-nonliteral',
+                    '-Wignored-qualifiers',
+                    '-Wimplicit-function-declaration',
+                    '-Wlogical-op',
+                    '-Wmissing-declarations',
+                    '-Wmissing-format-attribute',
+                    '-Wmissing-include-dirs',
+                    '-Wmissing-noreturn',
+                    '-Wmissing-prototype',
+                    '-Wnested-externs',
+                    '-Wno-cast-function-type',
+                    '-Wno-missing-field-initializers',
+                    '-Wno-sign-compare',
+                    '-Wno-unused-parameter',
+                    '-Wold-style-definition',
+                    '-Wpointer-arith',
+                    '-Wredundant-decls',
+                    '-Wshadow',
+                    '-Wstrict-prototypes',
+                    '-Wswitch-default',
+                    '-Wswitch-enum',
+                    '-Wundef',
+                    '-Wuninitialized',
+                    '-Wunused',
+                    '-Wwrite-strings',
+                    '-fno-strict-aliasing',
+                    ['-Werror=format-security', '-Werror=format=2' ],
+                    '-g' ]
+else # release, minsize, etc...
+  compile_flags = [ '-march=native',
+                    '-mtune=native',
+                    '-pedantic',
+                    '-pipe' ]
 endif
+
+supported_flags = cc.get_supported_arguments(compile_flags)
+add_project_arguments(supported_flags, language: LANGUAGE)
 
 includeDir = include_directories('include')
 
