@@ -88,7 +88,7 @@ subdir('source')
 
 
 # Define the executable target.
-executable(meson.project_name(), sources, include_directories: includeDir,
+executable(meson.project_name(), sources, include_directories: includes,
                                           install: true)
 
 install_data(
