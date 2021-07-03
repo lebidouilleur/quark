@@ -24,8 +24,17 @@
 
 
 
-# Project definition.
-project(                 'QUARK',
+# Define the project with a project name, a version, a license, a programming
+# language, a minimum `meson` version and some default options.
+# `meson` will create following variables for you:
+#   - meson.project_name()
+#   - meson.project_license()
+#   - meson.project_version()
+#
+#   - meson.version()
+# NOTE: There will ALWAYS be someone using a previous version of `meson'.
+#       Be sure to select an old enough one to prevent compilation issue.
+project(                 'quark',
                          'c',
                 license: 'GPL3+',
                 version: '0.0.1',
@@ -37,108 +46,50 @@ project(                 'QUARK',
 
 
 
-
-# Define the language used for the project.
-# Default is 'c'.  Take a look at
+# Since it's imposssible to define this variable before the project macro,
+# we redefine here the programming language used in the project.
+# Take a look at
 # https://mesonbuild.com/Reference-tables.html#language-arguments-parameter-names
 # to find any other accepted language.
+# Default: [ 'c' ]
 LANGUAGE = 'c'
 
 
 
 
-
-
-prefix     = get_option('prefix')
-bindir     = join_paths(prefix, get_option('bindir'))
-libdir     = join_paths(prefix, get_option('libdir'))
-mandir     = join_paths(prefix, get_option('mandir'))
-datadir    = join_paths(prefix, get_option('datadir'))
-localedir  = get_option('localedir')
+# The GNU Coding Standards define a standard way to install projects on a
+# GNU system.  It has become a de facto standard for almost every open source
+# projects.
+subdir('meson/GNUInstallDirs')
 
 
 
 
-
-
-# Setup the compiler
+# Setup the compiler with the given `LANGUAGE` and add compiler flags.
+# Be aware that compiler flags are specific to a certain buildtypes.
 cc = meson.get_compiler(LANGUAGE)
-if get_option('buildtype').startswith('debug')
-  # Add compilation flags
-  compile_flags = [ '-W',
-                    '-Wdeclaration-after-statement',
-                    '-Wcast-align',
-                    '-Wcast-qual',
-                    '-Wconversion',
-                    '-Werror',
-                    '-Werror=address',
-                    '-Werror=array-bounds',
-                    '-Werror=empty-body',
-                    '-Werror=implicit',
-                    '-Werror=implicit-function-declaration',
-                    '-Werror=incompatible-pointer-types',
-                    '-Werror=init-self',
-                    '-Werror=int-conversion',
-                    '-Werror=int-to-pointer-cast',
-                    '-Werror=main',
-                    '-Werror=misleading-indentation',
-                    '-Werror=missing-braces',
-                    '-Werror=missing-include-dirs',
-                    '-Werror=nonnull',
-                    '-Werror=overflow',
-                    '-Werror=parenthesis',
-                    '-Werror=pointer-arith',
-                    '-Werror=pointer-to-int-cast',
-                    '-Werror=redundant-decls',
-                    '-Werror=return-type',
-                    '-Werror=sequence-point',
-                    '-Werror=shadow',
-                    '-Werror=strict-prototypes',
-                    '-Werror=trigraphs',
-                    '-Werror=undef',
-                    '-Werror=write-strings',
-                    '-Wformat-nonliteral',
-                    '-Wignored-qualifiers',
-                    '-Wimplicit-function-declaration',
-                    '-Wlogical-op',
-                    '-Wmissing-declarations',
-                    '-Wmissing-format-attribute',
-                    '-Wmissing-include-dirs',
-                    '-Wmissing-noreturn',
-                    '-Wmissing-prototype',
-                    '-Wnested-externs',
-                    '-Wno-cast-function-type',
-                    '-Wno-missing-field-initializers',
-                    '-Wno-sign-compare',
-                    '-Wno-unused-parameter',
-                    '-Wold-style-definition',
-                    '-Wpointer-arith',
-                    '-Wredundant-decls',
-                    '-Wshadow',
-                    '-Wstrict-prototypes',
-                    '-Wswitch-default',
-                    '-Wswitch-enum',
-                    '-Wundef',
-                    '-Wuninitialized',
-                    '-Wunused',
-                    '-Wwrite-strings',
-                    '-fno-strict-aliasing',
-                    ['-Werror=format-security', '-Werror=format=2' ],
-                    '-g' ]
-else # release, minsize, etc...
-  compile_flags = [ '-march=native',
-                    '-mtune=native',
-                    '-pedantic',
-                    '-pipe' ]
-endif
+subdir('meson/CompileFlags')
 
-supported_flags = cc.get_supported_arguments(compile_flags)
-add_project_arguments(supported_flags, language: LANGUAGE)
 
-includeDir = include_directories('include')
 
-executable('quark', 'main.c', include_directories: includeDir,
-                              install: true)
+
+# Create a list of your files for further reuse in subdirectories.
+# NOTE: Do not forget to add `main.[c,cpp,...]` for avoid errors.
+sources  = [ 'main.c' ]
+includes = include_directories('include')
+
+
+
+
+# Append files to `sources` through `meson.build` in `source` subdirectory.
+subdir('source')
+
+
+
+
+# Define the executable target.
+executable(meson.project_name(), sources, include_directories: includeDir,
+                                          install: true)
 
 install_data(
   sources: [ 'LICENSE', 'README.md' ],
