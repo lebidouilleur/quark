@@ -88,8 +88,9 @@ subdir('source')
 
 
 # Define the executable target.
-executable(meson.project_name(), sources, include_directories: includes,
-                                          install: true)
+executable(meson.project_name(), sources: sources,
+                                 include_directories: includes,
+                                 install: true)
 
 install_data(
   sources: [ 'LICENSE', 'README.md' ],
