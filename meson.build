@@ -46,6 +46,14 @@ project(                 'quark',
 
 
 
+# Define the project type.  This type will allow us to tell `meson` how to build
+# and install the project.
+# Those values are permitted: [ 'executable', 'static_library', 'shared_library' ]
+# Default: [ 'executable' ]
+PROJECT_TYPE = 'executable'
+
+
+
 # Since it's imposssible to define this variable before the project macro,
 # we redefine here the programming language used in the project.
 # Take a look at
@@ -87,10 +95,15 @@ subdir('source')
 
 
 
-# Define the executable target.
-executable(meson.project_name(), sources: sources,
-                                 include_directories: includes,
-                                 install: true)
+if PROJECT_TYPE == 'executable'
+  # Define the executable target.
+  executable(meson.project_name(), sources: sources,
+                                   include_directories: includes,
+                                   install: true)
+endif
+
+
+
 
 install_data(
   sources: [ 'LICENSE', 'README.md' ],
