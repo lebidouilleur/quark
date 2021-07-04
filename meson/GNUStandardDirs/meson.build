@@ -1,4 +1,4 @@
-# GNUInstallDirs/meson.build ---                             -*- mode: meson; -*-
+# GNUStandardDirs/meson.build ---                             -*- mode: meson; -*-
 #
 # Copyright (C) 2021  lebidouilleur
 #

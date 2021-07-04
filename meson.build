@@ -60,7 +60,7 @@ LANGUAGE = 'c'
 # The GNU Coding Standards define a standard way to install projects on a
 # GNU system.  It has become a de facto standard for almost every open source
 # projects.
-subdir('meson/GNUInstallDirs')
+subdir('meson/GNUStandardDirs')
 
 
 
