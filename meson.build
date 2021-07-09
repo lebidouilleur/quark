@@ -101,6 +101,9 @@ if PROJECT_TYPE == 'executable'
   executable(meson.project_name(), sources: sources,
                                    include_directories: includes,
                                    install: true)
+
+
+  run_target('target', command: [meson.project_name(), ''])
 elif PROJECT_TYPE == 'library'
 elif PROJECT_TYPE == 'static_library'
 elif PROJECT_TYPE == 'shared_library'
