@@ -48,9 +48,11 @@ project(                 'quark',
 
 # Define the project type.  This type will allow us to tell `meson` how to build
 # and install the project.
-# Those values are permitted: [ 'executable', 'static_library', 'shared_library' ]
+# Those values are permitted: [ 'executable', 'library', 'static_library',
+#                                                        'shared_library' ]
 # Default: [ 'executable' ]
 PROJECT_TYPE = 'executable'
+
 
 
 
@@ -96,10 +98,14 @@ subdir('source')
 
 
 if PROJECT_TYPE == 'executable'
-  # Define the executable target.
   executable(meson.project_name(), sources: sources,
                                    include_directories: includes,
                                    install: true)
+elif PROJECT_TYPE == 'library'
+elif PROJECT_TYPE == 'static_library'
+elif PROJECT_TYPE == 'shared_library'
+else
+  error(PROJECT_TYPE + ' is not supported as project type.')
 endif
 
 
